@@ -5,6 +5,8 @@ const initialValues = {
   types: [],
   query: "",
   pokemons: [],
+  page: 1,
+  totalPages: 1,
 };
 
 const SearchContext = createContext(initialValues);
@@ -13,9 +15,14 @@ const SearchProvider = ({ children }) => {
   const [types, setTypes] = useState([]);
   const [query, setQuery] = useState("");
   const [pokemons, setPokemons] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     let partial = [];
+    if (types.length === 0) {
+      getPokemonsFromApi();
+    }
     types.forEach(async (type) => {
       const result = await getPokemonsByType(type);
       const pokemonsByType = result.map((pokemon) => pokemon?.pokemon?.name);
@@ -29,7 +36,6 @@ const SearchProvider = ({ children }) => {
   }, [types]);
 
   const getByName = useCallback(async () => {
-    console.log("asdasd", query);
     const result = await getPokemonDetails(query);
     if (result.name) {
       const pokemonsByName = [result.name];
@@ -43,10 +49,15 @@ const SearchProvider = ({ children }) => {
     getByName();
   }, [query]);
 
-  const getPokemonsFromApi = async () => {
-    const response = await getPokemons();
+  const getPokemonsFromApi = async (offset = 0) => {
+    const response = await getPokemons(offset);
     setPokemons(response.results.map((pokemon) => pokemon?.name));
+    setTotalPages(Math.ceil(response.count / 12) - 1);
   };
+
+  useEffect(() => {
+    getPokemonsFromApi(page * 12);
+  }, [page]);
 
   useEffect(() => {
     getPokemonsFromApi();
@@ -54,7 +65,16 @@ const SearchProvider = ({ children }) => {
 
   return (
     <SearchContext.Provider
-      value={{ types, query, setTypes, setQuery, pokemons }}
+      value={{
+        types,
+        query,
+        setTypes,
+        setQuery,
+        pokemons,
+        page,
+        setPage,
+        totalPages,
+      }}
     >
       {children}
     </SearchContext.Provider>

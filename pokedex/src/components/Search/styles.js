@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { getTypeBgColor } from "../../assets/js/utils";
+import { getContrastColor, getTypeBgColor } from "../../assets/js/utils";
 
 export const Input = styled.input`
   padding: 16px 20px;
@@ -29,13 +29,16 @@ export const TypesContainer = styled.div`
 export const TypeStyle = styled.div`
   background-color: ${(props) =>
     props.active ? getTypeBgColor(props.type) : "rgba(0, 0, 0, 0.1)"};
-  color: ${(props) => (props.active ? "#000" : "rgba(0, 0, 0, 0.3)")};
+  color: ${(props) =>
+    props.active
+      ? getContrastColor(getTypeBgColor(props.type))
+      : "rgba(0, 0, 0, 0.3)"};
   cursor: pointer;
   padding: 8px;
   border-radius: 14px;
   font-size: 1.2rem;
   &:hover {
     background-color: ${(props) => getTypeBgColor(props.type)};
-    color: #000;
+    color: ${(props) => getContrastColor(getTypeBgColor(props.type))};
   }
 `;

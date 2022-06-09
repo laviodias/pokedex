@@ -1,23 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Input, InputContainer, TypesContainer } from "./styles";
 import SearchIcon from "../../assets/images/SearchIcon.svg";
-import { getTypes } from "../../api/api";
 import Type from "./Type";
 import SearchContext from "../../context/SearchContext";
+import { getTypes } from "../../assets/js/utils";
 
 export default function Search() {
-  const [types, setTypes] = React.useState([]);
-  const [loadingTypes, setLoadingTypes] = React.useState(false);
-
+  const types = getTypes;
   const { setQuery } = useContext(SearchContext);
-
-  useEffect(() => {
-    setLoadingTypes(true);
-    getTypes().then((data) => {
-      setTypes(data);
-      setLoadingTypes(false);
-    });
-  }, []);
 
   return (
     <InputContainer>
@@ -33,19 +23,11 @@ export default function Search() {
         alt="Search"
         style={{ position: "absolute", right: 20, top: 16, cursor: "pointer" }}
       />
-      {loadingTypes ? (
-        <TypesContainer>
-          {[...Array(15)].map((_, index) => (
-            <Type key={index} name={"loading"} />
-          ))}
-        </TypesContainer>
-      ) : (
-        <TypesContainer>
-          {types.map((type) => (
-            <Type name={type.name} key={type.name} />
-          ))}
-        </TypesContainer>
-      )}
+      <TypesContainer>
+        {types.map((type) => (
+          <Type name={type} key={type} />
+        ))}
+      </TypesContainer>
     </InputContainer>
   );
 }

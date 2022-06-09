@@ -4,10 +4,11 @@ import Logo from "../../assets/images/Logo.svg";
 import Search from "../Search";
 import { CardsContainer, MainContainer } from "./styles";
 import SearchContext from "../../context/SearchContext";
+import PageList from "../PageList";
 
 export default function Homepage() {
   const { pokemons } = useContext(SearchContext);
-  
+
   return (
     <MainContainer>
       <img src={Logo} alt="Logo" width={50} />
@@ -18,6 +19,7 @@ export default function Homepage() {
           <Card key={pokemon} name={pokemon} />
         ))}
       </CardsContainer>
+      <PageList />
     </MainContainer>
   );
 }
