@@ -34,4 +34,8 @@ export const TypeStyle = styled.div`
   padding: 8px;
   border-radius: 14px;
   font-size: 1.2rem;
+  &:hover {
+    background-color: ${(props) => getTypeBgColor(props.type)};
+    color: #000;
+  }
 `;

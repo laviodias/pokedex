@@ -3,65 +3,43 @@ export const formatName = (name) => {
 };
 
 export const getCardBgColor = (type) => {
-  /*
-  normal
-fighting
-flying
-poison
-ground
-rock
-bug
-ghost
-steel
-fire
-water
-grass
-electric
-psychic
-ice
-dragon
-dark
-fairy
-unknown
-shadow
-  */
   switch (type) {
     case "normal":
-      return "rgba(168, 168, 120, 0.3)";
+      return "rgba(168, 167, 122, 0.5)";
     case "fire":
-      return "rgba(255, 64, 64, 0.3)";
+      return "rgba(238, 129, 48, 0.5)";
     case "water":
-      return "rgba(64, 64, 255, 0.3)";
-    case "grass":
-      return "rgba(64, 255, 64, 0.3)";
+      return "rgba(115, 144, 240, 0.5)";
     case "electric":
-      return "rgba(255, 255, 64, 0.3)";
+      return "rgba(247, 208, 44, 0.5)";
+    case "grass":
+      return "rgba(122, 199, 76, 0.5)";
     case "ice":
-      return "rgba(64, 255, 255, 0.3)";
+      return "rgba(150, 217, 214, 0.5)";
     case "fighting":
-      return "rgba(255, 64, 255, 0.3)";
+      return "rgba(194, 46, 40, 0.5)";
     case "poison":
-      return "rgba(64, 64, 64, 0.3)";
+      return "rgba(163, 62, 161, 0.5)";
     case "ground":
-      return "rgba(255, 255, 64, 0.3)";
+      return "rgba(226, 191, 101, 0.5)";
     case "flying":
-      return "rgba(64, 255, 255, 0.3)";
+      return "rgba(169, 143, 243, 0.5)";
     case "psychic":
-      return "rgba(255, 64, 255, 0.3)";
+      return "rgba(249, 85, 135, 0.5)";
     case "bug":
-      return "rgba(64, 64, 64, 0.3)";
+      return "rgba(166, 185, 26, 0.5)";
     case "rock":
-      return "rgba(255, 255, 64, 0.3)";
+      return "rgba(182, 161, 54, 0.5)";
     case "ghost":
-      return "rgba(64, 255, 255, 0.3)";
+      return "rgba(115, 87, 151, 0.5)";
     case "dragon":
-      return "rgba(255, 64, 255, 0.3)";
+      return "rgba(111, 53, 252, 0.5)";
     case "dark":
-      return "rgba(64, 64, 64, 0.3)";
+      return "rgba(112, 87, 70, 0.5)";
     case "steel":
-      return "rgba(255, 255, 64, 0.3)";
+      return "rgba(183, 183, 206, 0.5)";
     case "fairy":
-      return "rgba(64, 255, 255, 0.3)";
+      return "rgba(214, 133, 173, 0.5)";
     default:
       return null;
   }
@@ -70,41 +48,41 @@ shadow
 export const getTypeBgColor = (type) => {
   switch (type) {
     case "normal":
-      return "rgb(168, 168, 120)";
+      return "#A8A77A";
     case "fire":
-      return "rgb(255, 64, 64)";
+      return "#EE8130";
     case "water":
-      return "rgb(64, 64, 255)";
+      return "#6390F0";
     case "grass":
-      return "rgb(64, 255, 64)";
+      return "#7AC74C";
     case "electric":
-      return "rgb(255, 255, 64)";
+      return "#F7D02C";
     case "ice":
-      return "rgb(64, 255, 255)";
+      return "#96D9D6";
     case "fighting":
-      return "rgb(255, 64, 255)";
+      return "#C22E28";
     case "poison":
-      return "rgb(64, 64, 64)";
+      return "#A33EA1";
     case "ground":
-      return "rgb(255, 255, 64)";
+      return "#E2BF65";
     case "flying":
-      return "rgb(64, 255, 255)";
+      return "#A98FF3";
     case "psychic":
-      return "rgb(255, 64, 255)";
+      return "#F95587";
     case "bug":
-      return "rgb(64, 64, 64)";
+      return "#A6B91A";
     case "rock":
-      return "rgb(255, 255, 64)";
+      return "#B6A136";
     case "ghost":
-      return "rgb(64, 255, 255)";
+      return "#735797";
     case "dragon":
-      return "rgb(255, 64, 255)";
+      return "#6F35FC";
     case "dark":
-      return "rgb(64, 64, 64)";
+      return "#705746";
     case "steel":
-      return "rgb(255, 255, 64)";
+      return "#B7B7CE";
     case "fairy":
-      return "rgb(64, 255, 255)";
+      return "#D685AD";
     default:
       return null;
   }
