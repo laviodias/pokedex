@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
-import { getPokemonDetails, getPokemons, getPokemonsByType } from "../api/api";
+import { getAllPokemons, getPokemons, getPokemonsByType } from "../api/api";
 
 const initialValues = {
   types: [],
@@ -22,23 +22,25 @@ const SearchProvider = ({ children }) => {
     let partial = [];
     if (types.length === 0) {
       getPokemonsFromApi();
+    } else {
+      types.forEach(async (type) => {
+        const result = await getPokemonsByType(type);
+        if (partial?.length === 0) {
+          partial = result;
+        } else {
+          partial = result.filter((pokemon) => partial.includes(pokemon));
+        }
+        setPokemons(partial);
+      });
     }
-    types.forEach(async (type) => {
-      const result = await getPokemonsByType(type);
-      const pokemonsByType = result.map((pokemon) => pokemon?.pokemon?.name);
-      if (partial?.length === 0) {
-        partial = pokemonsByType;
-      } else {
-        partial = pokemonsByType.filter((pokemon) => partial.includes(pokemon));
-      }
-      setPokemons(partial);
-    });
   }, [types]);
 
   const getByName = useCallback(async () => {
-    const result = await getPokemonDetails(query);
-    if (result.name) {
-      const pokemonsByName = [result.name];
+    if (query !== "") {
+      const response = await getAllPokemons();
+      const pokemonsByName = response.results.filter((pokemon) =>
+        pokemon.name.match(query)
+      );
       setPokemons(pokemonsByName);
     } else {
       getPokemonsFromApi();
@@ -51,17 +53,20 @@ const SearchProvider = ({ children }) => {
 
   const getPokemonsFromApi = async (offset = 0) => {
     const response = await getPokemons(offset);
-    setPokemons(response.results.map((pokemon) => pokemon?.name));
+    setPokemons(response.results);
     setTotalPages(Math.ceil(response.count / 12) - 1);
   };
 
   useEffect(() => {
-    getPokemonsFromApi(page * 12);
+    getPokemonsFromApi((page - 1) * 12);
   }, [page]);
 
-  useEffect(() => {
-    getPokemonsFromApi();
-  }, []);
+  const resetAll = () => {
+    setTypes([]);
+    setQuery("");
+    setPokemons([]);
+    setPage(1);
+  };
 
   return (
     <SearchContext.Provider
@@ -74,6 +79,7 @@ const SearchProvider = ({ children }) => {
         page,
         setPage,
         totalPages,
+        resetAll,
       }}
     >
       {children}

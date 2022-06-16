@@ -14,8 +14,10 @@ export default function Search() {
       <Input
         type="text"
         placeholder="Search for a pokemon"
-        onChange={(e) => {
-          setQuery(e.target.value);
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            setQuery(e.target.value);
+          }
         }}
       />
       <img

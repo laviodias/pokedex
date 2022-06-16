@@ -6,8 +6,14 @@ export const getPokemons = async (offset = 0) => {
   return data;
 };
 
-export const getPokemonDetails = async (name) => {
-  const response = await fetch(`${BASE_URL}pokemon/${name}`);
+export const getAllPokemons = async () => {
+  const response = await fetch(`${BASE_URL}pokemon?limit=10000`);
+  const data = await response.json();
+  return data;
+};
+
+export const fetchPokemon = async (url) => {
+  const response = await fetch(url);
   const data = await response.json();
   return data;
 };

@@ -8,6 +8,14 @@ export const MainContainer = styled.section`
   justify-content: center;
   padding: 24px;
   gap: 24px;
+
+  @media (max-width: 1024px) {
+    width: 80vw;
+  }
+  
+  @media (max-width: 768px) {
+    width: 90vw;
+  }
 `;
 
 export const CardsContainer = styled.section`

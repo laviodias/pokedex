@@ -8,6 +8,12 @@ export const Card = styled.div`
   background-color: ${(props) => getCardBgColor(props.type) || "#fff"};
   width: 30%;
   border-radius: 16px;
+  min-width: 250px;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
 export const Name = styled.h1`
