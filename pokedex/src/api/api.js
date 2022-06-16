@@ -23,3 +23,12 @@ export const getPokemonsByType = async (type) => {
   const data = await response.json();
   return data.pokemon;
 };
+
+export const getPokemonDescriptions = async (id) => {
+  const response = await fetch(`${BASE_URL}characteristic/${id}`);
+  const data = await response.json();
+  const enDescription = data.descriptions.find(
+    (description) => description.language.name === "en"
+  ).description;
+  return enDescription;
+};

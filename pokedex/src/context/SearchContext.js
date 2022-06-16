@@ -9,6 +9,8 @@ const initialValues = {
   totalPages: 1,
 };
 
+const POKEMONS_PER_PAGE = 12;
+
 const SearchContext = createContext(initialValues);
 
 const SearchProvider = ({ children }) => {
@@ -54,11 +56,11 @@ const SearchProvider = ({ children }) => {
   const getPokemonsFromApi = async (offset = 0) => {
     const response = await getPokemons(offset);
     setPokemons(response.results);
-    setTotalPages(Math.ceil(response.count / 12) - 1);
+    setTotalPages(Math.ceil(response.count / POKEMONS_PER_PAGE) - 1);
   };
 
   useEffect(() => {
-    getPokemonsFromApi((page - 1) * 12);
+    getPokemonsFromApi((page - 1) * POKEMONS_PER_PAGE);
   }, [page]);
 
   const resetAll = () => {
