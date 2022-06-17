@@ -19,7 +19,7 @@ export default function PageList() {
         <PageButton onClick={() => setPage(page - 1)}>{page - 1}</PageButton>
       )}
       <PageButton disabled>{page}</PageButton>
-      {page < totalPages && (
+      {page < totalPages && totalPages > 1 && (
         <PageButton
           onClick={() => {
             setPage(page + 1);
@@ -28,7 +28,7 @@ export default function PageList() {
           {page + 1}
         </PageButton>
       )}
-      {page === 1 && (
+      {page === 1 && totalPages > 2 && (
         <PageButton onClick={() => setPage(page + 2)}>{page + 2}</PageButton>
       )}
       {page < totalPages - 1 && (

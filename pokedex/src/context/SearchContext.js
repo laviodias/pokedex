@@ -17,6 +17,7 @@ const SearchProvider = ({ children }) => {
   const [types, setTypes] = useState([]);
   const [query, setQuery] = useState("");
   const [pokemons, setPokemons] = useState([]);
+  const [pokemonsQuery, setPokemonsQuery] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -43,24 +44,32 @@ const SearchProvider = ({ children }) => {
       const pokemonsByName = response.results.filter((pokemon) =>
         pokemon.name.match(query)
       );
-      setPokemons(pokemonsByName);
+      setTotalPages(Math.ceil(pokemonsByName.length / POKEMONS_PER_PAGE));
+      setPokemonsQuery(
+        pokemonsByName.splice((page - 1) * POKEMONS_PER_PAGE, POKEMONS_PER_PAGE)
+      );
     } else {
       getPokemonsFromApi();
     }
-  }, [query]);
+  }, [query, page]);
 
   useEffect(() => {
     getByName();
   }, [query]);
 
   const getPokemonsFromApi = async (offset = 0) => {
+    setPokemonsQuery();
     const response = await getPokemons(offset);
     setPokemons(response.results);
     setTotalPages(Math.ceil(response.count / POKEMONS_PER_PAGE) - 1);
   };
 
   useEffect(() => {
-    getPokemonsFromApi((page - 1) * POKEMONS_PER_PAGE);
+    if (query !== "") {
+      getByName();
+    } else {
+      getPokemonsFromApi((page - 1) * POKEMONS_PER_PAGE);
+    }
   }, [page]);
 
   const resetAll = () => {
@@ -82,6 +91,7 @@ const SearchProvider = ({ children }) => {
         setPage,
         totalPages,
         resetAll,
+        pokemonsQuery,
       }}
     >
       {children}
