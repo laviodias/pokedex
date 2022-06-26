@@ -1,5 +1,5 @@
 export const formatName = (name) => {
-  return name.charAt(0).toUpperCase() + name.slice(1);
+  return name ? name.charAt(0).toUpperCase() + name.slice(1) : null;
 };
 
 export const getCardBgColor = (type) => {
@@ -100,9 +100,12 @@ const hexToRgb = (hex) => {
 };
 
 export const getContrastColor = (color) => {
+  if (!color || color === "") {
+    return null;
+  }
   const rgb = hexToRgb(color);
-  const yiq = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
-  return yiq >= 128 ? "#000" : "#fff";
+  const yiq = (rgb?.r * 299 + rgb?.g * 587 + rgb?.b * 114) / 1000;
+  return yiq >= 128 ? "#000000" : "#FFFFFF";
 };
 
 export const getTypes = [

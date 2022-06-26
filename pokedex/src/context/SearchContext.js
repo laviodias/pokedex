@@ -20,6 +20,7 @@ const SearchProvider = ({ children }) => {
   const [pokemonsQuery, setPokemonsQuery] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     let partial = [];
@@ -28,10 +29,11 @@ const SearchProvider = ({ children }) => {
     } else {
       types.forEach(async (type) => {
         const result = await getPokemonsByType(type);
+        const pokemons = result.map((pokemon) => pokemon.pokemon);
         if (partial?.length === 0) {
-          partial = result;
+          partial = pokemons;
         } else {
-          partial = result.filter((pokemon) => partial.includes(pokemon));
+          partial = pokemons.filter((pokemon) => partial.includes(pokemon));
         }
         setPokemons(partial);
       });
@@ -44,6 +46,7 @@ const SearchProvider = ({ children }) => {
       const pokemonsByName = response.results.filter((pokemon) =>
         pokemon.name.match(query)
       );
+      setNotFound(pokemonsByName.length === 0);
       setTotalPages(Math.ceil(pokemonsByName.length / POKEMONS_PER_PAGE));
       setPokemonsQuery(
         pokemonsByName.splice((page - 1) * POKEMONS_PER_PAGE, POKEMONS_PER_PAGE)
@@ -55,6 +58,7 @@ const SearchProvider = ({ children }) => {
 
   useEffect(() => {
     getByName();
+    setNotFound(false);
   }, [query]);
 
   const getPokemonsFromApi = async (offset = 0) => {
@@ -77,6 +81,7 @@ const SearchProvider = ({ children }) => {
     setQuery("");
     setPokemons([]);
     setPage(1);
+    setNotFound(false);
   };
 
   return (
@@ -92,6 +97,7 @@ const SearchProvider = ({ children }) => {
         totalPages,
         resetAll,
         pokemonsQuery,
+        notFound,
       }}
     >
       {children}

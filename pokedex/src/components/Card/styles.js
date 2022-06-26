@@ -6,10 +6,18 @@ export const Card = styled.div`
   justify-content: space-between;
   padding: 16px;
   background-color: ${(props) => getCardBgColor(props.type) || "#fff"};
-  width: 30%;
+  width: 32%;
   border-radius: 16px;
   min-width: 250px;
   cursor: pointer;
+
+  @media (max-width: 1210px) {
+    width: 45%;
+  }
+
+  @media (max-width: 768px) {
+    width: 80%;
+  }
 
   &:hover {
     transform: scale(1.05);

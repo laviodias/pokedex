@@ -7,7 +7,8 @@ import SearchContext from "../../context/SearchContext";
 import PageList from "../PageList";
 
 export default function Homepage() {
-  const { pokemons, resetAll, pokemonsQuery } = useContext(SearchContext);
+  const { pokemons, resetAll, pokemonsQuery, notFound } =
+    useContext(SearchContext);
 
   return (
     <MainContainer>
@@ -21,15 +22,26 @@ export default function Homepage() {
       <Search />
       <h1>Pokedex</h1>
       <CardsContainer>
-        {pokemonsQuery?.length
-          ? pokemonsQuery.map((pokemon) => (
-              <Card key={pokemon.name} name={pokemon.name} url={pokemon.url} />
-            ))
-          : pokemons.map((pokemon) => (
-              <Card key={pokemon.name} name={pokemon.name} url={pokemon.url} />
-            ))}
+        {notFound ? (
+          <h1>Pokemon not found</h1>
+        ) : pokemonsQuery?.length ? (
+          pokemonsQuery.map((pokemon) => (
+            <Card key={pokemon.name} name={pokemon.name} url={pokemon?.url} />
+          ))
+        ) : (
+          pokemons.map((pokemon) => (
+            <Card
+              key={pokemon.name}
+              name={pokemon.name}
+              url={
+                pokemon?.url ||
+                `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
+              }
+            />
+          ))
+        )}
       </CardsContainer>
-      <PageList />
+      {!notFound ? <PageList /> : null}
     </MainContainer>
   );
 }

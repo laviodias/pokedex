@@ -14,7 +14,7 @@ export default function Modal({ pokemon, onClose }) {
   }, [pokemon]);
 
   return (
-    <ModalContainer onClick={onClose}>
+    <ModalContainer onClick={onClose} data-testid="modal">
       <ModalBg>
         {pokemon.name} {description}
       </ModalBg>

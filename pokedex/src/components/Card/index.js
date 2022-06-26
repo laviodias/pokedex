@@ -13,10 +13,12 @@ export default function Card({ name, url }) {
 
   useEffect(() => {
     setLoading(true);
-    fetchPokemon(url).then((data) => {
-      setPokemon(data);
-      setLoading(false);
-    });
+    if (url) {
+      fetchPokemon(url).then((data) => {
+        setPokemon(data);
+        setLoading(false);
+      });
+    }
   }, [url]);
 
   return loading ? (
@@ -26,13 +28,18 @@ export default function Card({ name, url }) {
       <S.Card
         type={pokemon?.types[0]?.type?.name}
         onClick={() => setModalOpen(true)}
+        data-testid={name + " card"}
       >
         <div>
           <S.Name>{formatName(name)}</S.Name>
 
           <S.TypesContainer>
             {pokemon?.types.map((type) => (
-              <S.Type key={type.type.name} type={type.type.name}>
+              <S.Type
+                key={type.type.name}
+                type={type.type.name}
+                data-testid={type.type.name + " type"}
+              >
                 {type.type.name.toUpperCase()}
               </S.Type>
             ))}
@@ -44,7 +51,7 @@ export default function Card({ name, url }) {
             pokemon?.sprites.other["official-artwork"].front_default ??
             "https://icon-library.com/images/image-unavailable-icon/image-unavailable-icon-25.jpg"
           }
-          alt={name}
+          alt={name + " image"}
           height={IMAGE_SIZE}
           width={IMAGE_SIZE}
         />

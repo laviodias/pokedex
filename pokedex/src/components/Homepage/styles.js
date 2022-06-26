@@ -12,7 +12,7 @@ export const MainContainer = styled.section`
   @media (max-width: 1024px) {
     width: 80vw;
   }
-  
+
   @media (max-width: 768px) {
     width: 90vw;
   }
@@ -22,5 +22,5 @@ export const CardsContainer = styled.section`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 16px;
 `;
