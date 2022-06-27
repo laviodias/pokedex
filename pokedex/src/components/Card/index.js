@@ -27,7 +27,7 @@ export default function Card({ name, url }) {
     <>
       <S.Card
         type={pokemon?.types[0]?.type?.name}
-        onClick={() => setModalOpen(true)}
+        /* onClick={() => setModalOpen(true)} */
         data-testid={name + " card"}
       >
         <div>
