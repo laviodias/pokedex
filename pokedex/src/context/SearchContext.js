@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { createContext, useCallback, useEffect, useState } from "react";
 import { getAllPokemons, getPokemons, getPokemonsByType } from "../api/api";
 
