@@ -37,7 +37,11 @@ const SearchProvider = ({ children }) => {
             return partial.find((p) => p.name === pokemon.name);
           });
         }
+        setPokemonsQuery(
+          partial.splice((page - 1) * POKEMONS_PER_PAGE, POKEMONS_PER_PAGE)
+        );
         setPokemons(partial);
+        setTotalPages(Math.ceil(pokemons.length / POKEMONS_PER_PAGE));
       });
     }
   }, [types]);
@@ -73,6 +77,10 @@ const SearchProvider = ({ children }) => {
   useEffect(() => {
     if (query !== "") {
       getByName();
+    } else if (types.length > 0) {
+      setPokemonsQuery(
+        pokemons.splice((page - 1) * POKEMONS_PER_PAGE, POKEMONS_PER_PAGE)
+      );
     } else {
       getPokemonsFromApi((page - 1) * POKEMONS_PER_PAGE);
     }
