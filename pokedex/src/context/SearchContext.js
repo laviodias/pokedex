@@ -24,9 +24,11 @@ const SearchProvider = ({ children }) => {
 
   useEffect(() => {
     let partial = [];
-    if (types.length === 0) {
+    if (types.length === 0 && query === "") {
       getPokemonsFromApi();
-    } else {
+    } else if (types.length > 0) {
+      setQuery("");
+      setPage(1);
       types.forEach(async (type) => {
         const result = await getPokemonsByType(type);
         const pokemons = result.map((pokemon) => pokemon.pokemon);
@@ -37,9 +39,8 @@ const SearchProvider = ({ children }) => {
             return partial.find((p) => p.name === pokemon.name);
           });
         }
-        setPokemonsQuery(
-          partial.splice((page - 1) * POKEMONS_PER_PAGE, POKEMONS_PER_PAGE)
-        );
+        const firstPage = [...partial];
+        setPokemonsQuery(firstPage.splice(0, POKEMONS_PER_PAGE));
         setPokemons(partial);
         setTotalPages(Math.ceil(pokemons.length / POKEMONS_PER_PAGE));
       });
@@ -47,6 +48,7 @@ const SearchProvider = ({ children }) => {
   }, [types]);
 
   const getByName = useCallback(async () => {
+    setTypes([]);
     if (query !== "") {
       const response = await getAllPokemons();
       const pokemonsByName = response.results.filter((pokemon) =>
@@ -63,8 +65,20 @@ const SearchProvider = ({ children }) => {
   }, [query, page]);
 
   useEffect(() => {
-    getByName();
-    setNotFound(false);
+    if (types.length === 0) {
+      setPage(1);
+      setTypes([]);
+      if (query !== "") {
+        getByName();
+        setNotFound(false);
+      }
+    } else {
+      setPage(1);
+      if (query !== "") {
+        getByName();
+        setNotFound(false);
+      }
+    }
   }, [query]);
 
   const getPokemonsFromApi = async (offset = 0) => {
@@ -75,12 +89,15 @@ const SearchProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    console.log("hey", types, query);
     if (query !== "") {
       getByName();
     } else if (types.length > 0) {
-      setPokemonsQuery(
-        pokemons.splice((page - 1) * POKEMONS_PER_PAGE, POKEMONS_PER_PAGE)
-      );
+      console.log("ajs", pokemons);
+      const newPage = [...pokemons];
+      setPokemonsQuery([
+        ...newPage.splice((page - 1) * POKEMONS_PER_PAGE, POKEMONS_PER_PAGE),
+      ]);
     } else {
       getPokemonsFromApi((page - 1) * POKEMONS_PER_PAGE);
     }

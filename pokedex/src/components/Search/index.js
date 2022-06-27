@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Input, InputContainer, TypesContainer } from "./styles";
 import SearchIcon from "../../assets/images/SearchIcon.svg";
 import Type from "./Type";
@@ -7,13 +7,22 @@ import { getTypes } from "../../assets/js/utils";
 
 export default function Search() {
   const types = getTypes;
-  const { setQuery } = useContext(SearchContext);
+  const { setQuery, query } = useContext(SearchContext);
+  const [value, setValue] = useState("");
+
+  useEffect(() => {
+    if (query === "") {
+      setValue("");
+    }
+  }, [query]);
 
   return (
     <InputContainer>
       <Input
         type="text"
         placeholder="Search for a pokemon"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             setQuery(e.target.value);
