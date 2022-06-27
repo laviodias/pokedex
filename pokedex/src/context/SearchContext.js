@@ -33,7 +33,9 @@ const SearchProvider = ({ children }) => {
         if (partial?.length === 0) {
           partial = pokemons;
         } else {
-          partial = pokemons.filter((pokemon) => partial.includes(pokemon));
+          partial = pokemons.filter((pokemon) => {
+            return partial.find((p) => p.name === pokemon.name);
+          });
         }
         setPokemons(partial);
       });
